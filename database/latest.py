@@ -1,8 +1,9 @@
 import sqlite3
-from api_calls.ApiCalls import *
-from database.Request import update_request_table
+from api_calls.api_calls import *
+from database.request import update_request_table
 
 REQUEST_TYPE = "Latest"
+
 
 def create_latest_table():
     conn = sqlite3.connect('osrs_exchange.db')

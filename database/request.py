@@ -1,6 +1,6 @@
 import sqlite3
 import time
-from api_calls.ApiCalls import *
+from api_calls.api_calls import *
 
 
 def create_request_table():
