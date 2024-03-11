@@ -51,15 +51,43 @@ def _get_latest_item_data():
     latest_data_list = cursor.execute('''SELECT a.name, a.highalch, b.* FROM
                                     item_mapping a, (SELECT * FROM latest WHERE request_id IN (SELECT MAX(request_id) FROM latest)) b
                                     WHERE a.item_id = b.item_id''').fetchall()
+    conn.close()
 
     return latest_data_list
 
 
-def _get_nature_rune_price():
+def _get_five_min_history_data():
     conn = sqlite3.connect('osrs_exchange.db')
     cursor = conn.cursor()
 
-    latest_nature_rune_price = cursor.execute('''SELECT low_price FROM latest WHERE item_id = 561''').fetchone()
+    five_min_data_list = cursor.execute('''SELECT a.name, b.* FROM
+                                    item_mapping a, (SELECT * FROM five_min_history WHERE request_id IN (SELECT MAX(request_id) FROM five_min_history)) b
+                                    WHERE a.item_id = b.item_id''').fetchall()
+    conn.close()
+
+    print(five_min_data_list)
+
+    return five_min_data_list
+
+
+def _get_one_hour_history_data():
+    conn = sqlite3.connect('osrs_exchange.db')
+    cursor = conn.cursor()
+
+    one_hour_data_list = cursor.execute('''SELECT a.name, a.highalch, b.* FROM
+                                    item_mapping a, (SELECT * FROM one_hour_history WHERE request_id IN (SELECT MAX(request_id) FROM one_hour_history)) b
+                                    WHERE a.item_id = b.item_id''').fetchall()
+    conn.close()
+
+    return one_hour_data_list
+
+
+def _get_nature_rune_price(request_id):
+    conn = sqlite3.connect('osrs_exchange.db')
+    cursor = conn.cursor()
+
+    latest_nature_rune_price = cursor.execute('''SELECT low_price FROM latest 
+                                            WHERE item_id = 561 AND request_id = ?''', (request_id,)).fetchone()
     conn.close()
 
     return latest_nature_rune_price[0]
@@ -111,7 +139,7 @@ def _get_flip_roi(item):
 
 
 def _get_highalch_margin(item):
-    highalch_margin = item[1] - item[4] - _get_nature_rune_price()
+    highalch_margin = item[1] - item[4] - _get_nature_rune_price(_get_request_id(item))
     return round(highalch_margin)
 
 

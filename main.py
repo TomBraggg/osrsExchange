@@ -3,7 +3,7 @@ from database.mapping import create_mapping_table, update_mapping_table
 from database.latest import create_latest_table, update_latest_table
 from database.five_min_history import create_five_min_history_table, update_five_min_history_table
 from database.one_h_history import create_one_hour_history_table, update_one_hour_history_table
-from database.calculated_values import create_calculated_value_table, update_calculated_value_table
+from database.calculated_values import create_calculated_value_table, update_calculated_value_table, _get_five_min_history_data
 
 
 def main():
@@ -19,6 +19,8 @@ def main():
     update_five_min_history_table()
     update_one_hour_history_table()
     update_calculated_value_table()
+
+    _get_five_min_history_data()
 
 
 if __name__ == "__main__":
