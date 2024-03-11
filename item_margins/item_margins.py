@@ -15,8 +15,3 @@ def get_item_margins():
                      'high_price': item[4], 'low_time': item[5], 'high_time': item[6]}
 
         item_margin = {'item_name': item[0], 'item_margin': item[4] - item[3]}
-
-        print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-        print(item_data)
-        print(item_margin)
-        print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
